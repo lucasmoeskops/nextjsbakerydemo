@@ -6,7 +6,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from rest_framework.fields import URLField
 
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     InlinePanel,
@@ -15,8 +15,8 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.api import APIField
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Collection, Page
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Collection, Page
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel

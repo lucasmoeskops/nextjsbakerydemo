@@ -18,6 +18,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from bakerydemo.base.blocks import BaseStreamBlock
 from bakerydemo.base.models import api_page
+from bakerydemo.breads.serializers import BreadIndexPageInitialBreadSerializer
 
 
 @register_snippet
@@ -96,9 +97,11 @@ class BreadPage(Page):
         'body',
         APIField('bread_type', serializer=CharField(source='bread_type.title')),
         APIField('image', serializer=ImageRenditionField('fill-1920x600')),
+        APIField('featured_image', serializer=ImageRenditionField('fill-180x180-c100', source='image')),
         'introduction',
         APIField('origin', serializer=CharField(source='origin.title')),
         'title',
+        'url',
     ]
 
     introduction = models.TextField(
@@ -161,6 +164,7 @@ class BreadPage(Page):
     parent_page_types = ['BreadsIndexPage']
 
 
+@api_page
 class BreadsIndexPage(Page):
     """
     Index page for breads.
@@ -169,6 +173,12 @@ class BreadsIndexPage(Page):
     included pagination. We've separated the different aspects of the index page
     to be discrete functions to make it easier to follow
     """
+
+    api_fields = [
+        APIField('breads', serializer=BreadIndexPageInitialBreadSerializer(source='get_breads')),
+        'introduction',
+        'title',
+    ]
 
     introduction = models.TextField(
         help_text='Text to describe the page',
@@ -208,7 +218,7 @@ class BreadsIndexPage(Page):
     # method on the model rather than within a view function
     def paginate(self, request, *args):
         page = request.GET.get('page')
-        paginator = Paginator(self.get_breads(), 12)
+        paginator = Paginator(self.get_breads(), 6)
         try:
             pages = paginator.page(page)
         except PageNotAnInteger:

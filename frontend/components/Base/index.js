@@ -4,7 +4,6 @@ import {useRouter} from "next/router"
 import WagtailAdminUserBar from "../structures/wagtailadminuserbar";
 import { SWRConfig } from "swr";
 import React, {useEffect, useMemo, useState} from "react";
-import Link from "next/link";
 import Header from "../structures/Header";
 import Breadcrumbs from "../organisms/Breadcrumbs";
 
@@ -12,6 +11,7 @@ import Breadcrumbs from "../organisms/Breadcrumbs";
 // TODO: Don't load dynamically to improve rendering speed?
 const templateMap = new Map([
   ['base.HomePage', dynamic(() => import('../templates/HomePage'))],
+  ['breads.BreadsIndexPage', dynamic(() => import('../templates/BreadsIndexPage'))],
   ['breads.BreadPage', dynamic(() => import('../templates/BreadPage'))],
 ])
 

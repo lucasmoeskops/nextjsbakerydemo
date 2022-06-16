@@ -14,7 +14,7 @@ export default function Breadcrumbs({data: {breadcrumbs}}) {
             {ancestors.map(({title, url}, idx) => (
               idx + 1 === ancestors.length && <li aria-current="page" key={idx}>
                 {title}
-              </li> || <li>
+              </li> || <li key={idx}>
                 <Link href={url}>
                   <a>
                     {idx === 0 && 'Home' || title}

@@ -11,6 +11,8 @@ from wagtail.core import urls as wagtail_urls
 from bakerydemo.search import views as search_views
 from .api import api_router
 
+from fabrique.wagtail.core import urls as next_urls
+
 urlpatterns = [
     path('django-admin/', admin.site.urls),
 
@@ -20,7 +22,10 @@ urlpatterns = [
     path('search/', search_views.search, name='search'),
 
     path('sitemap.xml', sitemap),
-    path('api/v2/', api_router.urls),
+    path("wapi/v2/", api_router.urls),
+    path("_next/", include(next_urls)),
+    path("api/", include(next_urls)),
+    path("preview/", include(next_urls)),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
 

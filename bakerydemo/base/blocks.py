@@ -4,13 +4,15 @@ from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
 )
 
+from fabrique.nextjs_utils.blocks import APIImageChooserBlock
+
 
 class ImageBlock(StructBlock):
     """
     Custom `StructBlock` for utilizing images with associated caption and
     attribution data
     """
-    image = ImageChooserBlock(required=True)
+    image = APIImageChooserBlock(filter_spec='fill-600x338', required=True)
     caption = CharBlock(required=False)
     attribution = CharBlock(required=False)
 

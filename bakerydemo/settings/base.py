@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(PROJECT_DIR, ...)
+from os.path import join
+
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
@@ -193,3 +195,11 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ("de", "Deutsch"),
     ("ar", "العربيّة"),
 ]
+
+
+NEXTJS_RELATIVE_ROOT = 'frontend'
+NEXTJS_ROOT = join(BASE_DIR, NEXTJS_RELATIVE_ROOT)
+NEXTJS_URL = "http://localhost:3000"
+WAGTAIL_URL = "http://localhost:8000"
+
+CORS_ALLOWED_ORIGINS = [NEXTJS_URL, WAGTAIL_URL]

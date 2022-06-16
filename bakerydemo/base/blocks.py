@@ -4,7 +4,7 @@ from wagtail.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
 )
 
-from fabrique.nextjs_utils.blocks import APIImageChooserBlock
+from fabrique.nextjs_utils.blocks import APIImageChooserBlock, APIRichTextBlock
 
 
 class ImageBlock(StructBlock):
@@ -57,7 +57,7 @@ class BaseStreamBlock(StreamBlock):
     Define the custom blocks that `StreamField` will utilize
     """
     heading_block = HeadingBlock()
-    paragraph_block = RichTextBlock(
+    paragraph_block = APIRichTextBlock(
         icon="fa-paragraph",
         template="blocks/paragraph_block.html"
     )

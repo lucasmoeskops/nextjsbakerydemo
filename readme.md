@@ -1,6 +1,15 @@
 # Wagtail demo project
 
-This is a demonstration project for the amazing [Wagtail CMS](https://github.com/wagtail/wagtail).
+This is a demonstration project for running the amazing wagtail bakery demo site with a NextJs frontend.
+
+To make it work copy the `.env.example` file to `.env`. Run the frontend by going to the frontend directory and running yarn && yarn dev:
+
+```shell
+cd frontend
+yarn && yarn dev
+```
+
+Run the normal bakery site as a separate process.
 
 The demo site is designed to provide examples of common features and recipes to introduce you to Wagtail development. Beyond the code, it will also let you explore the admin / editorial interface of the CMS.
 

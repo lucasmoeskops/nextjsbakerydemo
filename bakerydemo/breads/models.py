@@ -90,7 +90,7 @@ class BreadType(models.Model):
 
 
 @api_page
-class BreadPage(HeadlessMixin):
+class BreadPage(HeadlessMixin, Page):
     """
     Detail view for a specific bread
     """
@@ -166,7 +166,7 @@ class BreadPage(HeadlessMixin):
 
 
 @api_page
-class BreadsIndexPage(HeadlessMixin):
+class BreadsIndexPage(HeadlessMixin, Page):
     """
     Index page for breads.
 

@@ -31,11 +31,3 @@ export async function getPageDataByPath(path, formatter=defaultFormatter) {
 export async function getDataByRelativeApiUrl(url, formatter=defaultFormatter) {
   return getDataByApiURL(new URL(`${process.env.PRIVATE_API_URL}${url}`), formatter)
 }
-
-export async function getPagePreviewDataByPath(secret, pk, formatter=defaultFormatter) {
-  // const pk = await findPagePkByPath(path)
-  const previewPath = `${process.env.PRIVATE_API_URL}/pages/preview/${pk}/`
-  const url = new URL(previewPath)
-  url.searchParams.set('secret', secret)
-  return getDataByApiURL(url, formatter)
-}

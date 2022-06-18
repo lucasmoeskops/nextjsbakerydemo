@@ -1,11 +1,7 @@
-import HeaderHero from "../../structures/HeaderHero";
-import WagtailStreamData from "../../../wagtail/components/WagtailStreamData";
-import dynamic from "next/dynamic";
 import HeaderIndex from "../../structures/HeaderIndex";
 import CardListingCard from "../../molecules/CardListingCard";
-import {getPagePreviewDataByPath} from "../../../wagtail/api/private";
 import {wagtailApiFetcher} from "../../../wagtail/api/public";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import Pagination from "../../molecules/Pagination";
 import {useRouter} from "next/router";
 

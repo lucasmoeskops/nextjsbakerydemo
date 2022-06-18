@@ -1,8 +1,5 @@
 from django.http.request import HttpRequest
-from django.http.response import HttpResponseRedirect
-from django.utils.http import urlencode
 
-from fabrique.wagtail.core.security import VALID_TODAY, make_secret
 from fabrique.wagtail.core.utils import pass_through_from_next
 
 

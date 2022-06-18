@@ -22,7 +22,9 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c6u0-9c!7nilj_ysatsda0(f@e_2mws2f!6m0n^o*4#*q#kzp)'
+SECRET_KEY = 'TEST'
+# TODO: key below doesn't seem to work
+#SECRET_KEY = 'c6u0-9c!7nilj_ysatsda0(f@e_2mws2f!6m0n^o*4#*q#kzp)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.api.v2',
     'wagtail.locales',
+    'wagtail.contrib.frontend_cache',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.routable_page',
     'wagtail.contrib.simple_translation',
@@ -203,3 +206,9 @@ NEXTJS_URL = "http://localhost:3000"
 WAGTAIL_URL = "http://localhost:8000"
 
 CORS_ALLOWED_ORIGINS = [NEXTJS_URL, WAGTAIL_URL]
+
+WAGTAILFRONTENDCACHE = {
+    "default": {
+        "BACKEND": "fabrique.wagtail.core.cache.NextJSBackend",
+    },
+}

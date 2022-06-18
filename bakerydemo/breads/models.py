@@ -15,6 +15,7 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail_headless_preview.models import HeadlessMixin
 
 from bakerydemo.base.blocks import BaseStreamBlock
 from bakerydemo.base.models import api_page
@@ -89,7 +90,7 @@ class BreadType(models.Model):
 
 
 @api_page
-class BreadPage(Page):
+class BreadPage(HeadlessMixin):
     """
     Detail view for a specific bread
     """
@@ -165,7 +166,7 @@ class BreadPage(Page):
 
 
 @api_page
-class BreadsIndexPage(Page):
+class BreadsIndexPage(HeadlessMixin):
     """
     Index page for breads.
 

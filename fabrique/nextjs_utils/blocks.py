@@ -1,7 +1,6 @@
 from wagtail.blocks import RichTextBlock
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.rich_text import RichText
 
 
 class APIImageChooserBlock(ImageChooserBlock):

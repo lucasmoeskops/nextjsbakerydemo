@@ -1,7 +1,7 @@
 from wagtail.api.v2.router import WagtailAPIRouter
 from wagtail.documents.api.v2.views import DocumentsAPIViewSet
 
-from fabrique.wagtail.core.api import ExtendedPagesAPIViewSet
+from fabrique.wagtail.core.api import ExtendedPagesAPIViewSet, PagePreviewAPIViewSet
 from fabrique.wagtail.images.api import ExtendedImagesApiViewSet
 
 # Create the router. "wagtailapi" is the URL namespace
@@ -14,3 +14,4 @@ api_router = WagtailAPIRouter("wagtailapi")
 api_router.register_endpoint("pages", ExtendedPagesAPIViewSet)
 api_router.register_endpoint("images", ExtendedImagesApiViewSet)
 api_router.register_endpoint("documents", DocumentsAPIViewSet)
+api_router.register_endpoint("page_preview", PagePreviewAPIViewSet)

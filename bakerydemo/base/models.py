@@ -22,8 +22,9 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtail_headless_preview.models import HeadlessMixin
 
-from fabrique.wagtail.core.models import with_preview_support, with_serve_from_next_support
+from fabrique.wagtail.core.models import with_serve_from_next_support
 from .blocks import BaseStreamBlock
 from .serializers import FeaturedSectionBreadSerializer, FormSerializer
 
@@ -189,7 +190,6 @@ def api_page(page_class):
         with_breadcrumbs_support,
         with_navigation_support,
         with_serve_from_next_support,
-        with_preview_support,
     ][::-1]:
         page_class = support(page_class)
     return page_class
@@ -224,7 +224,7 @@ class StandardPage(Page):
 
 
 @api_page
-class HomePage(Page):
+class HomePage(HeadlessMixin, Page):
     """
     The Home Page. This looks slightly more complicated than it is. You can
     see if you visit your site and edit the homepage that it is split between

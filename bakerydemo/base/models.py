@@ -356,12 +356,21 @@ class FormField(AbstractFormField):
     can read more about Wagtail forms at:
     https://docs.wagtail.org/en/stable/reference/contrib/forms/index.html
     """
+    api_fields = [
+        'label',
+        'help_text',
+        'required',
+        'field_type',
+        'choices',
+        'default_value',
+    ]
+
     page = ParentalKey('FormPage', related_name='form_fields', on_delete=models.CASCADE)
 
 
 class FormPage(ApiPage, AbstractEmailForm):
     api_fields = [
-        APIField('form', serializer=FormSerializer(source='get_form')),
+        APIField('form_fields'),
     ]
     image = models.ForeignKey(
         'wagtailimages.Image',

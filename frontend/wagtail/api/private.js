@@ -16,7 +16,7 @@ async function findPagePkByPath(path) {
   return detailUrl.pathname.split('/')[4]
 }
 
-async function getPageDataByApiUrl(url, formatter=defaultFormatter) {
+async function getDataByApiURL(url, formatter=defaultFormatter) {
   url.searchParams.set('format', 'json')
   const response = await fetchExpectStatusCode([url.toString()], 200)
   const json = await response.json()
@@ -25,13 +25,9 @@ async function getPageDataByApiUrl(url, formatter=defaultFormatter) {
 
 export async function getPageDataByPath(path, formatter=defaultFormatter) {
   const pk = await findPagePkByPath(path)
-  return getPageDataByApiUrl(new URL(`${process.env.PRIVATE_API_URL}/pages/${pk}/`), formatter)
+  return getDataByApiURL(new URL(`${process.env.PRIVATE_API_URL}/pages/${pk}/`), formatter)
 }
 
-export async function getPagePreviewDataByPath(secret, pk, formatter=defaultFormatter) {
-  // const pk = await findPagePkByPath(path)
-  const previewPath = `${process.env.PRIVATE_API_URL}/pages/preview/${pk}/`
-  const url = new URL(previewPath)
-  url.searchParams.set('secret', secret)
-  return getPageDataByApiUrl(url, formatter)
+export async function getDataByRelativeApiUrl(url, formatter=defaultFormatter) {
+  return getDataByApiURL(new URL(`${process.env.PRIVATE_API_URL}${url}`), formatter)
 }

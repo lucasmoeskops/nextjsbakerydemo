@@ -16,8 +16,8 @@ from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from bakerydemo.api.models import ApiPage
 from bakerydemo.base.blocks import BaseStreamBlock
-from bakerydemo.base.models import api_page
 from bakerydemo.breads.serializers import BreadIndexPageInitialBreadSerializer
 
 
@@ -88,12 +88,12 @@ class BreadType(models.Model):
         verbose_name_plural = "Bread types"
 
 
-@api_page
-class BreadPage(Page):
+class BreadPage(ApiPage):
     """
     Detail view for a specific bread
     """
     api_fields = [
+        *ApiPage.api_fields,
         'body',
         APIField('bread_type', serializer=CharField(source='bread_type.title')),
         APIField('image', serializer=ImageRenditionField('fill-1920x600')),
@@ -164,8 +164,7 @@ class BreadPage(Page):
     parent_page_types = ['BreadsIndexPage']
 
 
-@api_page
-class BreadsIndexPage(Page):
+class BreadsIndexPage(ApiPage):
     """
     Index page for breads.
 
@@ -175,6 +174,7 @@ class BreadsIndexPage(Page):
     """
 
     api_fields = [
+        *ApiPage.api_fields,
         APIField('breads', serializer=BreadIndexPageInitialBreadSerializer(source='get_breads')),
         'introduction',
         'title',

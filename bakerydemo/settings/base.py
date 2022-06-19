@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'bakerydemo.locations',
     'bakerydemo.search',
 
+    'wagtail_headless_preview',
+
     'wagtail.contrib.search_promotions',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -195,6 +197,13 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ("de", "Deutsch"),
     ("ar", "العربيّة"),
 ]
+
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {"default": "http://localhost:8000/api/preview"},
+    "LIVE_PREVIEW": False,  # set to True to enable live preview functionality
+    "SERVE_BASE_URL": "http://localhost:8000",  # can be used for HeadlessServeMixin
+    "REDIRECT_ON_PREVIEW": True,
+}
 
 
 NEXTJS_RELATIVE_ROOT = 'frontend'

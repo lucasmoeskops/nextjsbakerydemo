@@ -1,4 +1,4 @@
-import { getPageDataByPath } from '../wagtail/api/private';
+import {getDataByRelativeApiUrl, getPageDataByPath} from '../wagtail/api/private';
 
 import Base from "../components/Base";
 
@@ -8,11 +8,16 @@ export async function getStaticPaths() {
   return { paths, fallback: true }
 }
 
-export async function getStaticProps({params}) {
+export async function getStaticProps({params, preview, previewData}) {
   let data = null;
   const path = params ? params.path[params.path.length-1] : null; // select last path
   try {
-    data = await getPageDataByPath(params?.path?.join('/') || '/');
+    if (preview) {
+      const {contentType, token} = previewData
+      data = await getDataByRelativeApiUrl(`/page_preview/1/?content_type=${contentType}&token=${token}`);
+    } else {
+      data = await getPageDataByPath(params?.path?.join('/') || '/');
+    }
   } catch (e) {
     console.log(`Failed to obtain data :-(: ${e.message}`)
   }

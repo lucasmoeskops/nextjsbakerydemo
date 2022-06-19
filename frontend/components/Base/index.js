@@ -13,6 +13,7 @@ const templateMap = new Map([
   ['base.HomePage', dynamic(() => import('../templates/HomePage'))],
   ['breads.BreadsIndexPage', dynamic(() => import('../templates/BreadsIndexPage'))],
   ['breads.BreadPage', dynamic(() => import('../templates/BreadPage'))],
+  ['locations.LocationPage', dynamic(() => import('../templates/LocationPage'))],
 ])
 
 

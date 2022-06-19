@@ -3,6 +3,7 @@ from datetime import datetime
 from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
+from rest_framework.serializers import ModelSerializer
 from wagtail.admin.panels import InlinePanel, FieldPanel, StreamFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import StreamField
@@ -14,7 +15,12 @@ from wagtail.search import index
 from bakerydemo.api.models import ApiPage
 from bakerydemo.base.blocks import BaseStreamBlock
 from bakerydemo.locations.models import LocationOperatingHours
-from bakerydemo.locations.serializers import OperatingHoursSerializer
+
+
+class OperatingHoursSerializer(ModelSerializer):
+    class Meta:
+        fields = ['closed', 'closing_time', 'day', 'opening_time']
+        model = LocationOperatingHours
 
 
 class LocationPage(ApiPage):

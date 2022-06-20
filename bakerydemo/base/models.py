@@ -22,11 +22,9 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
-from wagtail_headless_preview.models import HeadlessMixin
 
-from fabrique.wagtail.core.models import with_serve_from_next_support
 from .blocks import BaseStreamBlock
-from .serializers import FeaturedSectionBreadSerializer, FormSerializer
+from .serializers import FeaturedSectionBreadSerializer
 from ..api.models import ApiPage
 
 
@@ -370,7 +368,12 @@ class FormField(AbstractFormField):
 
 class FormPage(ApiPage, AbstractEmailForm):
     api_fields = [
+        *ApiPage.api_fields,
         APIField('form_fields'),
+    ]
+    landing_api_fields = [
+        *ApiPage.api_fields,
+        APIField('thank_you_text'),
     ]
     image = models.ForeignKey(
         'wagtailimages.Image',

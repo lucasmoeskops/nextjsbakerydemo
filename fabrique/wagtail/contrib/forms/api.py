@@ -7,6 +7,8 @@ from wagtail.api.v2.views import PagesAPIViewSet
 from wagtail.contrib.forms.models import AbstractForm
 from wagtail.models import Page
 
+from fabrique.django_utils import ensure_csrf_token_on_request
+
 
 class FormsApiEndpoint(PagesAPIViewSet):
     model = Page
@@ -23,8 +25,13 @@ class FormsApiEndpoint(PagesAPIViewSet):
         This returns a list of URL patterns for the endpoint
         """
         return [
+            path("obtain_csrf/", cls.as_view({"get": "obtain_csrf_view"}), name="obtain_csrf"),
             path("<int:pk>/submit/", cls.as_view({"post": "submit_form_view"}), name="submit_form"),
         ]
+
+    def obtain_csrf_view(self, request):
+        ensure_csrf_token_on_request(request)
+        return Response({})
 
     def submit_form_view(self, request, pk):
         page = self.get_object()

@@ -4,7 +4,7 @@ from django.db import models
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from rest_framework.fields import URLField
+from rest_framework.fields import URLField, CharField
 
 from wagtail.admin.panels import (
     FieldPanel,
@@ -355,6 +355,7 @@ class FormField(AbstractFormField):
     https://docs.wagtail.org/en/stable/reference/contrib/forms/index.html
     """
     api_fields = [
+        APIField('name', serializer=CharField(source='clean_name')),
         'label',
         'help_text',
         'required',
@@ -369,6 +370,7 @@ class FormField(AbstractFormField):
 class FormPage(ApiPage, AbstractEmailForm):
     api_fields = [
         *ApiPage.api_fields,
+        APIField('body'),
         APIField('form_fields'),
     ]
     landing_api_fields = [

@@ -3,8 +3,7 @@ import {richTextToReact} from "../../../wagtail/utils/richtext";
 import React, {useState} from "react";
 import WagtailStreamData from "../../../wagtail/components/WagtailStreamData";
 import {submitPageForm} from "../../../wagtail/forms/core";
-import {snakeToCamel} from "../../../wagtail/utils/caseconverters";
-import {variableNameConverter} from "../../../wagtail/api/private";
+import {variableNameConverter} from "../../../wagtail/api/base";
 
 
 const FIELD_TYPE_MAP = new Map([

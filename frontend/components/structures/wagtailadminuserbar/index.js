@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {buildApiUrl, fetcherForSWR, getAdminUserBar, getUserContext} from "../../../wagtail/api/public";
+import {buildPublicApiUrl, fetcherForSWR, getAdminUserBar, getUserContext} from "../../../wagtail/api/public";
 import {useRouter} from "next/router";
 import useSWRImmutable from "swr/immutable";
 
@@ -89,7 +89,7 @@ function bootstrap () {
 
 export default function WagtailAdminUserBar({data: {id}}) {
   const { data, loading, error } = useSWRImmutable(
-      buildApiUrl(`/pages/wagtail_user_bar/${id}/`),
+      buildPublicApiUrl(`/pages/wagtail_user_bar/${id}/`),
       fetcherForSWR
   )
 

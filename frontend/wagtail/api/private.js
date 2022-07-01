@@ -1,45 +1,42 @@
-import {doFetch} from "../http";
-import {convertObjectKeys, snakeToCamel} from "../utils/caseconverters";
-
-export const variableNameConverter = snakeToCamel
-const defaultFormatter = (data) => convertObjectKeys(data, true, variableNameConverter)
+import {doFetch, RequestError} from "../http";
+import {getJsonFromApiResponse} from "./base";
 
 async function findPagePkByPath(path) {
   const params = new URLSearchParams()
   params.set('html_path', path)
   const queryString = params.toString()
-  const response = await doFetch(
-    `${process.env.PRIVATE_API_URL}/pages/find/?${queryString.replace('%2C','/')}`,
-      {
-        request: (url) => new Request(url, {redirect: 'manual'}),
-        handler: async (response) => {
-          if (response.status === 302) {
-            return response
-          }
-        }
-    }
+  const response = await fetch(
+      new Request(
+          buildPrivateApiUrl(`/pages/find/?${queryString.replace('%2C','/')}`),
+          {redirect: 'manual'}
+      )
   )
 
-  const detailUrl = new URL(response.headers.get('location'))
-  return detailUrl.pathname.split('/')[4]
+  if (response.status === 302) {
+    const detailUrl = new URL(response.headers.get('location'))
+    return detailUrl.pathname.split('/')[4]
+  }
+
+  throw new RequestError(response.statusText, response)
 }
 
-async function getDataByApiURL(url, options = {}) {
-  options = typeof options === 'object' && options || {}
-  options = {
-    formatter: defaultFormatter,
-    ...options,
-  }
+export function buildPrivateApiUrl(relativePath) {
+  return `${process.env.PRIVATE_API_URL}${relativePath}`
+}
+
+export async function getPrivateApiJson(relative_path) {
+  const url = new URL(buildPrivateApiUrl(relative_path))
   url.searchParams.set('format', 'json')
-  const json = await doFetch(url.toString(), options)
-  return options.formatter(json)
+  const response = await fetch(url)
+
+  if (response.status === 200) {
+    return getJsonFromApiResponse(response)
+  }
+
+  throw new RequestError(response.statusText, response)
 }
 
 export async function getPageDataByPath(path, options = {}) {
   const pk = await findPagePkByPath(path)
-  return getDataByApiURL(new URL(`${process.env.PRIVATE_API_URL}/pages/${pk}/`), options)
-}
-
-export async function getDataByRelativeApiUrl(url, options = {}) {
-  return getDataByApiURL(new URL(`${process.env.PRIVATE_API_URL}${url}`), options)
+  return getPrivateApiJson(`/pages/${pk}/`)
 }

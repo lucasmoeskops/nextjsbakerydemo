@@ -1,4 +1,4 @@
-import {getDataByRelativeApiUrl, getPageDataByPath} from '../wagtail/api/private';
+import {getPageDataByPath, getPrivateApiJson} from '../wagtail/api/private';
 
 import Base from "../components/Base";
 
@@ -14,7 +14,7 @@ export async function getStaticProps({params, preview, previewData}) {
   try {
     if (preview) {
       const {contentType, token} = previewData
-      data = await getDataByRelativeApiUrl(`/page_preview/1/?content_type=${contentType}&token=${token}`);
+      data = await getPrivateApiJson(`/page_preview/1/?content_type=${contentType}&token=${token}`);
     } else {
       data = await getPageDataByPath(params?.path?.join('/') || '/');
     }

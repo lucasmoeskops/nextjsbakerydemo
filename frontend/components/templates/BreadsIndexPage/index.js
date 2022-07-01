@@ -1,9 +1,10 @@
 import HeaderIndex from "../../structures/HeaderIndex";
 import CardListingCard from "../../molecules/CardListingCard";
-import {buildApiUrl, getJsonFromApiResponse} from "../../../wagtail/api/public";
+import {buildPublicApiUrl} from "../../../wagtail/api/public";
 import {useEffect, useState} from "react";
 import Pagination from "../../molecules/Pagination";
 import {useRouter} from "next/router";
+import {getJsonFromApiResponse} from "../../../wagtail/api/base";
 
 
 export default function BreadIndexPage({data: {breads: {items: initialBreads, totalCount}, introduction, id, title}}) {
@@ -38,7 +39,7 @@ export default function BreadIndexPage({data: {breads: {items: initialBreads, to
 
     // TODO: do we need to manually cancel this request when a new one is made?
     fetch(
-        buildApiUrl(`/pages/?${query.toString()}`)
+        buildPublicApiUrl(`/pages/?${query.toString()}`)
     ).then(async res => {
       const json = await getJsonFromApiResponse(res)
       // Featured image needed a different name because the rendition spec is different

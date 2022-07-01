@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs"
-import {buildApiUrl} from "./api/public";
+import {buildPublicApiUrl} from "./api/public";
 
 function readCsrfFromCookie() {
   return document.cookie
@@ -14,7 +14,7 @@ export async function getCsrfToken() {
     return value
   }
 
-  await fetch(buildApiUrl('/forms/obtain_csrf/'))
+  await fetch(buildPublicApiUrl('/forms/obtain_csrf/'))
   return readCsrfFromCookie()
 }
 

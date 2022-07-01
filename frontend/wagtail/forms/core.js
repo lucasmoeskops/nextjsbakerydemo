@@ -1,5 +1,6 @@
-import {buildApiUrl, getJsonFromApiResponse} from "../api/public";
+import {buildPublicApiUrl} from "../api/public";
 import {getCsrfToken} from "../security";
+import {getJsonFromApiResponse} from "../api/base";
 
 
 class FormSubmissionError extends Error {
@@ -9,9 +10,9 @@ class FormSubmissionError extends Error {
 
 export async function submitPageForm (pagePk, formElement) {
   const formData = new FormData(formElement)
-  formData.set('csrftoken', await getCsrfToken())
+  formData.set('csrfmiddlewaretoken', await getCsrfToken())
   const request = new Request(
-      buildApiUrl(`/forms/${pagePk}/submit/`),
+      buildPublicApiUrl(`/forms/${pagePk}/submit/`),
       {body: formData, method: 'POST'}
   )
   const response = await fetch(request)

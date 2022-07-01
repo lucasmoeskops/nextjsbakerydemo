@@ -8,11 +8,6 @@ export const fetcherForSWR = async (url, init) => {
   return defaultFormatter(json)
 }
 
-export function buildApiUrl(relativePath) {
+export function buildPublicApiUrl(relativePath) {
   return `${process.env.NEXT_PUBLIC_API_URL}${relativePath}`
-}
-
-export async function getJsonFromApiResponse(fetchResponse) {
-  const data = await fetchResponse.json()
-  return defaultFormatter(data)
 }

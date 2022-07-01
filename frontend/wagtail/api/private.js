@@ -1,4 +1,4 @@
-import {doFetch, RequestError} from "../http";
+import {RequestError} from "../http";
 import {getJsonFromApiResponse} from "./base";
 
 async function findPagePkByPath(path) {

@@ -1,9 +1,10 @@
 import Image from "next/image";
+import WagtailImage from "../../atoms/Image";
 
 
-function CardListingCardImage({data: {alt, height, url, width}}) {
+function CardListingCardImage({data}) {
   return <figure className="listing-card__image">
-    <Image src={`${process.env.NEXT_PUBLIC_WAGTAIL_URL}${url}`} alt={alt} height={height} width={width}/>
+    <WagtailImage {...data} />
   </figure>
 }
 

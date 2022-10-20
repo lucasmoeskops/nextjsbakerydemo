@@ -14,6 +14,8 @@ const templateMap = new Map([
   ['breads.BreadsIndexPage', dynamic(() => import('../templates/BreadsIndexPage'))],
   ['breads.BreadPage', dynamic(() => import('../templates/BreadPage'))],
   ['base.FormPage', dynamic(() => import('../templates/FormPage'))],
+  ['locations.LocationPage', dynamic(() => import('../templates/LocationPage'))],
+  ['locations.LocationsIndexPage', dynamic(() => import('../templates/LocationsIndexPage'))],
 ])
 
 

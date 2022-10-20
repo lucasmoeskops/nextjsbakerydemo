@@ -17,5 +17,5 @@ export default function WagtailImage({url, ...rest}) {
     delete rest.width
   }
 
-  return <AutoWidthObservingImage src={`${process.env.NEXT_PUBLIC_WAGTAIL_URL}${url}`} {...rest} />
+  return <NextImage src={`${process.env.NEXT_PUBLIC_WAGTAIL_URL}${url}`} {...rest} />
 }

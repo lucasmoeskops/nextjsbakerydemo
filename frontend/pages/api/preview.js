@@ -1,4 +1,4 @@
-import {getDataByRelativeApiUrl} from "../../wagtail/api/private";
+import {getPrivateApiJson} from "../../wagtail/api/private";
 
 export default async (req, res) => {
   // Check the required parameters
@@ -11,7 +11,7 @@ export default async (req, res) => {
 
   // Fetch the headless CMS to check if the provided `slug` exists
   // getPostBySlug would implement the required fetching logic to the headless CMS
-  const post = await getDataByRelativeApiUrl(`/page_preview/get_path/?content_type=${contentType}&token=${token}`)
+  const post = await getPrivateApiJson(`/page_preview/get_path/?content_type=${contentType}&token=${token}`)
 
   // If the slug doesn't exist prevent preview mode from being enabled
   if (!post) {

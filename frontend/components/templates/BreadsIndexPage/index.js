@@ -1,9 +1,10 @@
 import HeaderIndex from "../../structures/HeaderIndex";
 import CardListingCard from "../../molecules/CardListingCard";
-import {wagtailApiFetcher} from "../../../wagtail/api/public";
+import {buildPublicApiUrl} from "../../../wagtail/api/public";
 import {useEffect, useState} from "react";
 import Pagination from "../../molecules/Pagination";
 import {useRouter} from "next/router";
+import {getJsonFromApiResponse} from "../../../wagtail/api/base";
 
 
 export default function BreadIndexPage({data: {breads: {items: initialBreads, totalCount}, introduction, id, title}}) {
@@ -34,13 +35,17 @@ export default function BreadIndexPage({data: {breads: {items: initialBreads, to
       ...searchParams,
       offset: (page - 1) * searchParams.limit
     })
+    console.log('hello')
 
     // TODO: do we need to manually cancel this request when a new one is made?
-    wagtailApiFetcher(`/pages/?${query.toString()}`).then(res => {
+    fetch(
+        buildPublicApiUrl(`/pages/?${query.toString()}`)
+    ).then(async res => {
+      const json = await getJsonFromApiResponse(res)
       // Featured image needed a different name because the rendition spec is different
-      const breads = res.items.map(item => ({...item, image: item.featuredImage}))
+      const breads = json.items.map(item => ({...item, image: item.featuredImage}))
       setBreads(breads)
-      setTotalPages(calculateTotalPages(res.meta.totalCount))
+      setTotalPages(calculateTotalPages(json.meta.totalCount))
     }).catch(err => setBreads([]))
   }, [page])
 

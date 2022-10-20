@@ -1,33 +1,42 @@
-import {fetchExpectStatusCode} from "../http";
-import {convertObjectKeys} from "../utils/caseconverters";
-
-const defaultFormatter = convertObjectKeys
+import {RequestError} from "../http";
+import {getJsonFromApiResponse} from "./base";
 
 async function findPagePkByPath(path) {
   const params = new URLSearchParams()
   params.set('html_path', path)
   const queryString = params.toString()
-  const response = await fetchExpectStatusCode(
-    [`${process.env.PRIVATE_API_URL}/pages/find/?${queryString.replace('%2C','/')}`, {redirect: 'manual'}],
-    302
+  const response = await fetch(
+      new Request(
+          buildPrivateApiUrl(`/pages/find/?${queryString.replace('%2C','/')}`),
+          {redirect: 'manual'}
+      )
   )
 
-  const detailUrl = new URL(response.headers.get('location'))
-  return detailUrl.pathname.split('/')[4]
+  if (response.status === 302) {
+    const detailUrl = new URL(response.headers.get('location'))
+    return detailUrl.pathname.split('/')[4]
+  }
+
+  throw new RequestError(response.statusText, response)
 }
 
-async function getDataByApiURL(url, formatter=defaultFormatter) {
+export function buildPrivateApiUrl(relativePath) {
+  return `${process.env.PRIVATE_API_URL}${relativePath}`
+}
+
+export async function getPrivateApiJson(relative_path) {
+  const url = new URL(buildPrivateApiUrl(relative_path))
   url.searchParams.set('format', 'json')
-  const response = await fetchExpectStatusCode([url.toString()], 200)
-  const json = await response.json()
-  return formatter(json)
+  const response = await fetch(url)
+
+  if (response.status === 200) {
+    return getJsonFromApiResponse(response)
+  }
+
+  throw new RequestError(response.statusText, response)
 }
 
-export async function getPageDataByPath(path, formatter=defaultFormatter) {
+export async function getPageDataByPath(path, options = {}) {
   const pk = await findPagePkByPath(path)
-  return getDataByApiURL(new URL(`${process.env.PRIVATE_API_URL}/pages/${pk}/`), formatter)
-}
-
-export async function getDataByRelativeApiUrl(url, formatter=defaultFormatter) {
-  return getDataByApiURL(new URL(`${process.env.PRIVATE_API_URL}${url}`), formatter)
+  return getPrivateApiJson(`/pages/${pk}/`)
 }

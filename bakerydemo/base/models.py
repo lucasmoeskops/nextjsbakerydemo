@@ -4,7 +4,7 @@ from django.db import models
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from rest_framework.fields import URLField
+from rest_framework.fields import URLField, CharField
 
 from wagtail.admin.panels import (
     FieldPanel,
@@ -22,11 +22,9 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
-from wagtail_headless_preview.models import HeadlessMixin
 
-from fabrique.wagtail.core.models import with_serve_from_next_support
 from .blocks import BaseStreamBlock
-from .serializers import FeaturedSectionBreadSerializer, FormSerializer
+from .serializers import FeaturedSectionBreadSerializer
 from ..api.models import ApiPage
 
 
@@ -356,12 +354,28 @@ class FormField(AbstractFormField):
     can read more about Wagtail forms at:
     https://docs.wagtail.org/en/stable/reference/contrib/forms/index.html
     """
+    api_fields = [
+        APIField('name', serializer=CharField(source='clean_name')),
+        'label',
+        'help_text',
+        'required',
+        'field_type',
+        'choices',
+        'default_value',
+    ]
+
     page = ParentalKey('FormPage', related_name='form_fields', on_delete=models.CASCADE)
 
 
 class FormPage(ApiPage, AbstractEmailForm):
     api_fields = [
-        APIField('form', serializer=FormSerializer(source='get_form')),
+        *ApiPage.api_fields,
+        APIField('body'),
+        APIField('form_fields'),
+    ]
+    landing_api_fields = [
+        *ApiPage.api_fields,
+        APIField('thank_you_text'),
     ]
     image = models.ForeignKey(
         'wagtailimages.Image',
